@@ -1,0 +1,23 @@
+.timer {
+    display: flex;
+    color: aliceblue;
+    padding-top: 20px;
+
+}
+
+.field {
+    background-color: teal;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.field:not(:first-child) {
+    margin-left: 20px;
+}
+
+button {
+    margin-left: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+}
