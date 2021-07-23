@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import swal from 'sweetalert'
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -29,15 +29,16 @@ const valueMinutes = document.querySelector('span[data-minutes]');
 const valueSeconds = document.querySelector('span[data-seconds]');
 const btnStart = document.querySelector('button[data-start]');
 const inputCalendar = document.querySelector('#date-selector');
+const errorMessage = "Please choose a date in the future";
 
-const timeInterval = null;
+let timeInterval = null;
 let chooseDay = null;
 let restTime = null;
 
 
 const timing = () => {
-  const currentTime = Date.parse(new Date());
-  chooseDay = Date.parse(inputCalendar.value);
+  const currentTime = new Date();
+  chooseDay = Number(inputCalendar.valueAsDate) + inputCalendar.valueAsDate.getTimezoneOffset()*60*1000;
   restTime = (chooseDay - currentTime);
 
   let getTime = convertMs(restTime);
@@ -56,20 +57,22 @@ const startTimer = () => {
   if (Date.parse(inputCalendar.value) - Date.parse(new Date())) {
     timeInterval = setInterval(timing, 1000);
   }
-  clearInterval(timeInterval);
+  return;
 }
+
 
 btnStart.addEventListener('click', startTimer);
 
 const inputDate = () => {
+  clearInterval(timeInterval);
+  valueDays.innerHTML='';
+  valueHours.innerHTML='';
+  valueMinutes.innerHTML='';
+  valueSeconds.innerHTML='';
+
 if (Date.parse(inputCalendar.value) <= Date.parse(new Date())) {
   btnStart.setAttribute('disabled','true');
-  clearInterval(timeInterval);
-  Swal.fire({
-    title: 'Please choose a date in the future',
-    icon: 'error',
-    confirmButtonText: 'Cool'
-  })
+  swal(errorMessage);
 } else if (Date.parse(inputCalendar.value) >= Date.parse(new Date()) && btnStart.hasAttribute('disabled')) {
   btnStart.removeAttribute('disabled');
  }
@@ -77,7 +80,3 @@ if (Date.parse(inputCalendar.value) <= Date.parse(new Date())) {
 }
 
 inputCalendar.addEventListener('change', inputDate);
-
-
-
-

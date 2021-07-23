@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "images": "^3.2.3",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.0.18"
   }
 }
